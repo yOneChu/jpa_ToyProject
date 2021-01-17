@@ -21,7 +21,7 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-devtools' // 리로딩되게 만들어준다. 예로 html 수저후 리스타트 안해도됨
     //implementation 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate5' //
 
-    //implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'
+    implementation 'com.github.gavlyukovskiy:p6spy-spring-boot-starter:1.5.6'  // 쿼리 파라미터 보이게하는거(운영에서는 제외해라 성능대문에)
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
 

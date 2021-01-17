@@ -1,4 +1,0 @@
-com/jpabook/JpaShopApplication.java
- com.jpabook.JpaShopApplication
-com/jpabook/Hello.java
- com.jpabook.Hello
