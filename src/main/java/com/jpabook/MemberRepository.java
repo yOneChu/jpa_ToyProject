@@ -1,4 +1,5 @@
 package com.jpabook;
+import com.jpabook.domain.Member;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
