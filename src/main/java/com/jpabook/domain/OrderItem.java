@@ -1,13 +1,16 @@
 package com.jpabook.domain;
 
 import com.jpabook.domain.item.Item;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import javax.persistence.*;
 
 @Entity
 @Setter @Getter
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class OrderItem {
 
     @Id @GeneratedValue
@@ -24,6 +27,8 @@ public class OrderItem {
     
     private int orderPrice; //주문가격
     private int count; //주문수량
+
+    // protected OrderItem() { } // @NoArgsConstructor(access = AccessLevel.PROTECTED)와 같은 의미이다.
 
     //== 생성 메서드 == //
     public static OrderItem createOrderItem(Item item, int orderPrice, int count) {
