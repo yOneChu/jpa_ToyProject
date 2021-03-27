@@ -4,10 +4,12 @@ import com.jpabook.domain.Order;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.GetMapping;
 
 import javax.persistence.EntityManager;
 import javax.persistence.TypedQuery;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -74,6 +76,27 @@ public class OrderRepository {
 
         return query.getResultList();
     }
+
+
+    // fetch join을 통한 성능 최적화
+    public List<Order> findAllWithMemberDelivery() {
+        return em.createQuery("select o from Order  o " +
+                                " join fetch o.member m " +
+                                " join fetch  o.delivery d", Order.class)
+                                .getResultList();
+    }
+
+    // V2와 V3은 똑같지만 쿼리가 다르다.
+    // fetch join은 확실하게 공부해서 적극 활용해라!!
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<SimpleOrderDto> result = orders.stream()
+                            .map(o -> new SimpleOrderDto(o))
+                            .collect(Collectors.toList());
+        return result;
+    }
+
 
 
 }
