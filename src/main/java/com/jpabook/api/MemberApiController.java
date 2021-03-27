@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotEmpty;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController// = @Controller + @ResponseBody을 합친거다
 @RequiredArgsConstructor
@@ -86,4 +88,44 @@ public class MemberApiController {
             this.id = id;
         }
     }
+
+    /**
+     * 멤버조회
+     * 문제점 : 엔티티 모든것이 노출된다.
+     * @return
+     */
+    @GetMapping("/api/v1/members")
+    public List<Member> memberV1() {
+        return memberService.findMembers();
+    }
+
+    @GetMapping("/api/v2/members")
+    public Result memberV2() {
+        List<Member> findMembers = memberService.findMembers();
+        List<MemberDto> collect = findMembers.stream()
+                            .map(m -> new MemberDto(m.getName()))
+                            .collect(Collectors.toList());
+        // API 파라미터 받을때나 보낼때 엔티티를 사용하지 말아라.
+        // DTO를 만들어서 필요한 정보만 노출해야 한다.
+        // Result로 감싸서 보내기 때문에 유연성이 생긴다. return new Result(collect.size(), collect);
+        return  new Result(collect.size(), collect);
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class Result<T> {
+        private int count;
+        private T data;
+    }
+
+    @Data
+    @AllArgsConstructor
+    static class MemberDto {
+        private String name;
+    }
+
+
+
+
+
 }
