@@ -59,6 +59,18 @@ public class OrderSimpleApiController {
 
     }
 
+
+    // V2와 V3은 똑같지만 쿼리가 다르다.
+    // fetch join은 확실하게 공부해서 적극 활용해라!!
+    @GetMapping("/api/v3/simple-orders")
+    public List<SimpleOrderDto> ordersV3() {
+        List<Order> orders = orderRepository.findAllWithMemberDelivery();
+        List<SimpleOrderDto> result = orders.stream()
+                .map(o -> new SimpleOrderDto(o))
+                .collect(Collectors.toList());
+        return result;
+    }
+
     //v3보다 좀 더 성능 최적화
     @GetMapping("/api/v4/simple-orders")
     public List<OrderSimpleQueryDto> orderV4() {

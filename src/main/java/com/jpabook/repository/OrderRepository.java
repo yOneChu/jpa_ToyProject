@@ -86,16 +86,6 @@ public class OrderRepository {
                 .getResultList();
     }
 
-    // V2와 V3은 똑같지만 쿼리가 다르다.
-    // fetch join은 확실하게 공부해서 적극 활용해라!!
-    @GetMapping("/api/v3/simple-orders")
-    public List<SimpleOrderDto> ordersV3() {
-        List<Order> orders = orderRepository.findAllWithMemberDelivery();
-        List<SimpleOrderDto> result = orders.stream()
-                .map(o -> new SimpleOrderDto(o))
-                .collect(Collectors.toList());
-        return result;
-    }
 
     //DTO로 조회했기 때문에 재사용성에 좋지 않다.
     public List<OrderSimpleQueryDto> findOrderDtos() {
